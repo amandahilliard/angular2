@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../services/todo.service';
-import { Todo } from '../interfaces/todo.interfaces';
 
 @Component({
   selector: 'app-todo',
@@ -8,28 +7,30 @@ import { Todo } from '../interfaces/todo.interfaces';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
-  title: string = "";
   username: string = "";
-  todos: Array<Todo> = []
+  title: string = "";
+  todoList: Object[] = [];
   constructor(private todoService: TodoService) {
-    this.todos = this.todoService.allTodos();
-  }
+    this.todoList = todoService.getAllTodos()
+  
+   }
 
-  addTodo(){
-    if(this.username.length > 0 && this.title.length >0){
-    this.todoService.addTodo(this.username, this.title)
-    this.todos = this.todoService.allTodos();
-    this.username = ""
-    this.title = ""
-    }
-  }
-
-  deleteTodo(id: number){
+   removeTodo(id){
     this.todoService.deleteTodo(id);
-    this.todos = this.todoService.allTodos();
-  }
+    this.todoList = [...this.todoService.getAllTodos()]
+   }
 
-  ngOnInit(): void {
+   createTodo(){
+    this.todoService.addTodo(this.username, this.title);
+    this.todoList = [...this.todoService.getAllTodos()]
+   }
+
+   markTodo(id){
+    this.todoService.markTodo(id);
+    this.todoList = [...this.todoService.getAllTodos()]
+   }
+
+  ngOnInit() {
   }
 
 }

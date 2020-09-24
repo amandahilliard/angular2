@@ -1,19 +1,9 @@
-<input type="text" placeholder= "title" [(ngModel)]="title">
-<input type= "text" placeholder="username" [(ngModel)]= "username">
-<button (click) = 'addTodo()'>Add ToDo</button>
-
 <div>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Username</th>
-            <th>Delete</th>
-        </tr>
-        <tr *ngFor= "let todo of todos">
-            <td>{{todo.id}}</td>
-            <td>{{todo.title}}</td>
-            <td><a [routerLink]="'/user/'+todo.user">{{todo.user}}</a></td>
-        </tr>
-    </table>
+  <input type="text" placeholder="username" [(ngModel)]="username">
+  <input type="text" placeholder="title" [(ngModel)]="title">
+  <button (click)="createTodo()">Add Todo</button>
+</div>
+<div>
+
+<app-todolist [todoList]="todoList" (markEvent)="markTodo($event)"  (deleteEvent)="removeTodo($event)" ></app-todolist>
 </div>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo } from '../interfaces/todo.interfaces';
 import { TodoService } from '../services/todo.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -9,28 +8,32 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  title: string = "";
-  username: string = "";
-  todos: Array<Todo> = []
-  constructor(private todoService: TodoService,
-    private actr: ActivatedRoute) {
-      this.username = this.actr.snapshot.params.username
-      this.todos = this.todoService.byUsername(this.username);
-  }
+  title: string = ""
+  username: string;
+  todoList: Object[] = [];
 
-  addTodo(){
-    if(this.username.length > 0 && this.title.length >0){
-    this.todoService.addTodo(this.username, this.title)
-    this.todos = this.todoService.byUsername(this.username);
-    this.title = ""
-    }
-  }
+  constructor(private todoService: TodoService, private actr: ActivatedRoute) {
+      this.username = actr.snapshot.params.username;
+      this.todoList = [...todoService.getTodosByUsername(this.username)];
+   }
 
-  deleteTodo(id: number){
+   markTodo(id){
+    this.todoService.markTodo(id);
+    this.todoList = [...this.todoService.getTodosByUsername(this.username)]
+   }
+
+
+   removeTodo(id){
     this.todoService.deleteTodo(id);
-    this.todos = this.todoService.byUsername(this.username);
+    this.todoList = [...this.todoService.getTodosByUsername(this.username)];
+   }
+
+   createTodo(){
+    this.todoService.addTodo(this.username, this.title);
+    this.todoList = [...this.todoService.getTodosByUsername(this.username)];
+   }
+
+  ngOnInit() {
   }
 
-  ngOnInit(): void {
-  }
 }

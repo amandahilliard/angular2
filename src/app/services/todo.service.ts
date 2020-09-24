@@ -1,45 +1,56 @@
 import { Injectable } from '@angular/core';
-import { Todo } from '../interfaces/todo.interfaces';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  todos: Array<Todo> = [
-    {id: 1, title: 'Wash the dog', user: 'Mike'},
-    {id: 2, title: 'Wash the cat', user: 'Mike'},
-    {id: 3, title: 'Wash the elephant', user: 'John'},
-    {id: 4, title: 'Wash the horse', user: 'Mike'},
-    {id: 5, title: 'Wash the rhino', user: 'John'},
+  private todos: Object[] = [
+  {id: 1, completed: false, title: 'Wash the dog', username: 'Mike'},
+  {id: 2, completed: false, title: 'Wash the cat', username: 'Mike'},
+  {id: 3, completed: true, title: 'Wash the elephant', username: 'John'},
+  {id: 4, completed: false, title: 'Wash the horse', username: 'Mike'},
+  {id: 5, completed: false, title: 'Wash the rhino', username: 'John'},
   ]
-  nextId: number = 6;
-
+  private nextId: number = 6;
   constructor() { }
 
-  // Add Todo
-  addTodo(username: string, title: string){
-    let newTodo: Todo = {
+
+  // TODO: Get all Todos
+  getAllTodos(){
+      return this.todos
+  }
+
+  // TODO: Get todos by username
+  getTodosByUsername(uname){
+    return this.todos.filter(todo => todo['username'] === uname)
+  }
+
+  // TODO: Add todo
+  addTodo(uname, todoTitle){
+    let newTodo = {
       id: this.nextId,
-      title: title, 
-      user: username,
+      title: todoTitle,
+      username: uname, 
+      completed: false
     }
     this.nextId++;
-    this.todos = [...this.todos, newTodo];
+    this.todos.push(newTodo);
   }
 
-  // Delete Todo
-  deleteTodo(id: number): void{
-    let removeIdx = this.todos.map(todo => todo.id).indexOf(id);
-    this.todos.splice(removeIdx, 1);
+  // TODO: Delete Todo
+
+  deleteTodo(id){
+    let idx = this.todos.findIndex(todo => todo['id'] === id);
+    //splice out element
+    this.todos.splice(idx, 1);
   }
 
-  // All Todo
-  allTodos(){
-    return [...this.todos];
+  markTodo(id){
+    let idx = this.todos.findIndex(todo => todo['id'] === id);
+    //splice out element
+    this.todos[idx]['completed'] = !this.todos[idx]['completed']
   }
 
-  // todos by Username
-  byUsername(username: string){
-    return this.todos.filter(todo => username.toLowerCase() === todo.user.toLowerCase())
-  }
+
 }
