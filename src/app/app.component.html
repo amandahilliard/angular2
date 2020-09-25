@@ -3,3 +3,6 @@
 <router-outlet></router-outlet>
 
 <div mouseFocus style = "border: 1px solid black; width: 100ox; height: 100px;"></div>
+
+<input type="date" [(ngModel)] = "dateInput">
+<div style = "height: 100px; width: 100px;" class="birthday" [userBirthday] = "dateInput">{{dateInput}}</div>
