@@ -12,6 +12,7 @@ import { TodolistComponent } from './todolist/todolist.component';
 import { LoginComponent } from './login/login/login.component';
 import { MouseFocusDirective } from './directives/mouse-focus.directive';
 import { MissedBirthdayDirective } from './directives/missed-birthday.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MissedBirthdayDirective } from './directives/missed-birthday.directive'
     AppRoutingModule,
     FormsModule,
     MaterialModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
